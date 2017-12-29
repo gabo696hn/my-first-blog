@@ -25,7 +25,7 @@ SECRET_KEY = 'w8u!ze@lt15b*g%$xq6omz#-@x_vk328!a1m01ze(n#*q&6pxj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gabosapp.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'gabosapp.pythonanywhere.com']
 
 
 # Application definition
