@@ -5,10 +5,43 @@
         <div class="date">
         {% if post.published_date %}
             {{ post.published_date }}
+        {% else %}
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_publish' pk=post.pk %}"><button class="btn btn-default btn-sm float-right">Publicar</button></a>
+            {% endif %}
         {% endif %}
-        <a href="{% url 'post_edit' pk=post.pk %}"><button type="button" class="btn btn-default btn-sm float-right">Editar</button></a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'post_edit' pk=post.pk %}"><button class="btn btn-default btn-sm float-right">Editar</button></a>
+        <a href="{% url 'post_remove' pk=post.pk %}"><button class="btn btn-default btn-sm float-right">Borrar</button></a>
+        {% endif %}
         </div>
+        {% if post.published_date %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
+        {% endif %}
     </div>
+
+    <hr>
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}"> Comentar </a>
+    {% for comment in post.comments.all %}
+    <!--{% if user.is_authenticated or comment.approved_comment %}-->
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            <!--{% if not comment.approved_comment %}
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"> Remover </a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"> Aprovar </a>
+            {% endif %}-->
+            {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"> Remover </a>
+            {% endif %}
+        </div>
+        <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+    <!--{% endif %}-->
+    {% empty %}
+        <p>Aun no hay comentarios :(</p>
+    {% endfor %}
+
 {% endblock %}

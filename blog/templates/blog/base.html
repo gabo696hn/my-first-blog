@@ -8,13 +8,20 @@
         <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>-->
         <!--<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">-->
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link rel="shortcut icon" href="{%  static 'favicon/favicon.ico' %}">
         <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <title>Gabo's blog app</title>
     </head>
     <body>
         <div class="page-header">
-                <a href="{% url 'post_new' %}"><button type="button" class="btn btn-default btn-md float-right"> Nuevo </button></a>
-            <h1><a href="/">Gabos's blog app</a></h1>
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_draft_list' %}"><button class="btn btn-default btn-md float-right"> Borradores </button></a>
+            <a href="{% url 'post_new' %}"><button class="btn btn-default btn-md float-right"> Nuevo </button></a>
+            <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+            {% else %}
+            <a href="{% url 'login' %}"><button class="btn btn-default btn-md float-right"> Login </button></a>
+            {% endif %}
+            <h1><a href="/">Gabo's blog app</a></h1>
         </div>
 
         <div class="content container">
